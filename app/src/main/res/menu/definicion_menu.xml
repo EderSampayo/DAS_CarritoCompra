@@ -1,0 +1,23 @@
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Opciones en la ActionBar -->
+    <item
+        android:id="@+id/menu_carrito"
+        android:icon="@drawable/carrito"
+        android:title="Carrito"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_productos"
+        android:title="Productos"
+        android:icon="@drawable/uvas"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_usuario"
+        android:title="Usuario"
+        android:icon="@drawable/usuario"
+        app:showAsAction="ifRoom" />
+
+</menu>

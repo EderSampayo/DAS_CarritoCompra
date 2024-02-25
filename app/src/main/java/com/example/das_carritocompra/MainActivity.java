@@ -2,6 +2,7 @@ package com.example.das_carritocompra;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
@@ -21,6 +24,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Añadir las opciones del toolbar (Carrito, Productos, Usuario)
+        Toolbar toolbar = findViewById(R.id.labarra);
+        setSupportActionBar(toolbar);
+        // Aquí desactivamos el título en la barra
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         carrito = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
@@ -59,5 +68,12 @@ public class MainActivity extends AppCompatActivity {
     // Método para mostrar un Toast
     private void mostrarToast(String mensaje) {
         Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /** Método para enseñar definicion_menu.xml **/
+        getMenuInflater().inflate(R.menu.definicion_menu,menu);
+        return true;
     }
 }
