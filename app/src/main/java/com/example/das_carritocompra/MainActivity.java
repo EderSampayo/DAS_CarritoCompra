@@ -9,6 +9,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.widget.EditText;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,12 +62,6 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // Método para abrir la segunda actividad
-    private void openAddTaskActivity() {
-        // Abrir el diálogo
-        // TODO
-    }
-
     // Método para mostrar un Toast
     private void mostrarToast(String mensaje) {
         Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
@@ -75,5 +72,47 @@ public class MainActivity extends AppCompatActivity {
         /** Método para enseñar definicion_menu.xml **/
         getMenuInflater().inflate(R.menu.definicion_menu,menu);
         return true;
+    }
+
+    private void openAddTaskActivity() {
+        // Crear un cuadro de diálogo de alerta
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Añadir Producto");
+
+        // Configurar el diseño del cuadro de diálogo
+        final EditText input = new EditText(this);
+        builder.setView(input);
+
+        // Configurar el botón "Añadir"
+        builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Obtener el texto ingresado
+                String newItem = input.getText().toString();
+
+                // Validar que el texto no esté vacío
+                if (!newItem.isEmpty()) {
+                    // Agregar el nuevo elemento a la lista
+                    carrito.add(newItem);
+                    adapter.notifyDataSetChanged();
+
+                    // Mostrar el mensaje Toast
+                    mostrarToast(newItem + " añadido");
+                } else {
+                    mostrarToast("Por favor, ingrese un texto");
+                }
+            }
+        });
+
+        // Configurar el botón "Cancelar"
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel(); // Cerrar el cuadro de diálogo
+            }
+        });
+
+        // Mostrar el cuadro de diálogo de alerta
+        builder.show();
     }
 }
