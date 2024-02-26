@@ -14,20 +14,11 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="16dp" />
 
-    <Button
-        android:id="@+id/btnAnadirProducto"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Añadir Producto"
-        android:layout_below="@id/textViewCarrito"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp"/>
-
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/btnAnadirProducto"
+        android:layout_below="@id/textViewCarrito"
         android:layout_marginTop="16dp"/>
 
     <androidx.appcompat.widget.Toolbar

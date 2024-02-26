@@ -58,15 +58,6 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        //Boton para añadir producto
-        Button addButton = findViewById(R.id.btnAnadirProducto);
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                openAddTaskActivity();
-            }
-        });
-
         // Manejo de pulsación larga para eliminar tarea
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -95,48 +86,6 @@ public class MainActivity extends AppCompatActivity {
         /** Método para enseñar definicion_menu.xml **/
         getMenuInflater().inflate(R.menu.definicion_menu,menu);
         return true;
-    }
-
-    private void openAddTaskActivity() {
-        // Crear un cuadro de diálogo de alerta
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Añadir Producto");
-
-        // Configurar el diseño del cuadro de diálogo
-        final EditText input = new EditText(this);
-        builder.setView(input);
-
-        // Configurar el botón "Añadir"
-        builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Obtener el texto ingresado
-                String newItem = input.getText().toString();
-
-                // Validar que el texto no esté vacío
-                if (!newItem.isEmpty()) {
-                    // Agregar el nuevo elemento a la lista
-                    carrito.add(newItem);
-                    adapter.notifyDataSetChanged();
-
-                    // Mostrar el mensaje Toast
-                    mostrarToast(newItem + " añadido");
-                } else {
-                    mostrarToast("Por favor, ingrese un texto");
-                }
-            }
-        });
-
-        // Configurar el botón "Cancelar"
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.cancel(); // Cerrar el cuadro de diálogo
-            }
-        });
-
-        // Mostrar el cuadro de diálogo de alerta
-        builder.show();
     }
 
     @Override
