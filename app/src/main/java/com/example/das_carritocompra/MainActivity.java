@@ -3,6 +3,7 @@ package com.example.das_carritocompra;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -115,4 +116,29 @@ public class MainActivity extends AppCompatActivity {
         // Mostrar el cuadro de diálogo de alerta
         builder.show();
     }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.menu_carrito) {
+            // No hace nada, es la propia clase
+            return true;
+        } else if (itemId == R.id.menu_productos) {
+            // Iniciar Actividad 2
+            startActivity(new Intent(this, ActividadProductos.class));
+            return true;
+        } else if (itemId == R.id.menu_usuario) {
+            // Iniciar Actividad 3
+            startActivity(new Intent(this, ActividadUsuario.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public boolean productoEnCarrito(String nombreProducto) {
+        return carrito.contains(nombreProducto);
+    }
+
 }

@@ -21,6 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".ActividadProductos">
+            <!-- Pueden haber otras configuraciones aquí -->
+        </activity>
+
+        <activity android:name=".ActividadUsuario">
+            <!-- Pueden haber otras configuraciones aquí -->
+        </activity>
     </application>
 
 </manifest>
