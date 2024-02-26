@@ -3,6 +3,7 @@ package com.example.das_carritocompra;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,6 +24,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActividadProductos extends AppCompatActivity {
+    private List<Producto> productos;
+    private ProductoAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +37,21 @@ public class ActividadProductos extends AppCompatActivity {
         // Aquí desactivamos el título en la barra
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-        List<Producto> productos = new ArrayList<>();
-        productos.add(new Producto("Pera", "Carbohidrato"));
-        productos.add(new Producto("Carne de vaca", "Proteína"));
-        productos.add(new Producto("Cacahuete", "Grasa"));
+        productos = new ArrayList<>();
+
+        //productos.add(new Producto("Pera", "Carbohidrato"));
+        //productos.add(new Producto("Carne de vaca", "Proteína"));
+        //productos.add(new Producto("Cacahuete", "Grasa"));
 
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        ProductoAdapter adapter = new ProductoAdapter(productos);
+        adapter = new ProductoAdapter(getApplicationContext(), productos);
         recyclerView.setAdapter(adapter);
+
+        // Cargar productos de la BBDD
+        cargarProductosDesdeBD();
 
         Button addButton = findViewById(R.id.btnAnadirProducto);
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -53,6 +60,27 @@ public class ActividadProductos extends AppCompatActivity {
                 openAddTaskActivity(productos);
             }
         });
+    }
+
+    private void cargarProductosDesdeBD() {
+        // Obtener los productos de la base de datos
+        Cursor cursor = DatabaseHelper.getMiDatabaseHelper(this).getTodosLosProductos();
+
+        // Limpiar la lista actual de productos
+        productos.clear();
+
+        // Iterar a través de los resultados del cursor y agregar productos a la lista
+        while (cursor.moveToNext()) {
+            String nombre = cursor.getString(cursor.getColumnIndex("nombre"));
+            String tipo = cursor.getString(cursor.getColumnIndex("tipo"));
+            productos.add(new Producto(nombre, tipo));
+        }
+
+        // Notificar al adaptador que los datos han cambiado
+        adapter.notifyDataSetChanged();
+
+        // Cerrar el cursor
+        cursor.close();
     }
 
     private void mostrarToast(String mensaje) {
@@ -105,7 +133,7 @@ public class ActividadProductos extends AppCompatActivity {
                 if (!nombreProducto.isEmpty()) {
                     // Agregar el nuevo elemento a la lista
 
-                    ProductoAdapter adapter = new ProductoAdapter(productos);
+                    ProductoAdapter adapter = new ProductoAdapter(getApplicationContext(), productos);
                     //recyclerView.setAdapter(adapter);
 
                     // Obtener el tipo seleccionado
@@ -115,6 +143,9 @@ public class ActividadProductos extends AppCompatActivity {
 
                     Producto elProducto = new Producto(nombreProducto, tipoSeleccionado);
                     productos.add(elProducto);
+
+                    // Añadir el producto a la BBDD
+                    DatabaseHelper.getMiDatabaseHelper(ActividadProductos.this).anadirProducto(nombreProducto, tipoSeleccionado);
 
                     // Mostrar el mensaje Toast
                     mostrarToast(nombreProducto + " añadido");
