@@ -1,7 +1,10 @@
 package com.example.das_carritocompra;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,6 +26,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> carrito;
     private ArrayAdapter<String> adapter;
+    private DatabaseHelper databaseHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,9 +42,23 @@ public class MainActivity extends AppCompatActivity {
         carrito = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
 
+        // Cargar la BBDD en el carrito
+        DatabaseHelper databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
+        Cursor cartItems = databaseHelper.obtenerCarrito();
+
+        ArrayList<String> carrito = new ArrayList<>();
+        if (cartItems.moveToFirst()) {
+            do {
+                String producto = cartItems.getString(cartItems.getColumnIndex("producto"));
+                carrito.add(producto);
+            } while (cartItems.moveToNext());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
+        //Boton para añadir producto
         Button addButton = findViewById(R.id.btnAnadirProducto);
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
                 String productoTachado = carrito.get(i); // Guarda el nombre de la tarea eliminada
                 carrito.remove(i);
+
+                // Eliminar de la base de datos
+                DatabaseHelper.getMiDatabaseHelper(view.getContext()).borrarDelCarrito(productoTachado);
+
                 adapter.notifyDataSetChanged();
 
                 mostrarToast(productoTachado + " eliminado"); // Muestra el Toast con el mensaje
