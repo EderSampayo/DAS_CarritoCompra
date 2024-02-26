@@ -33,6 +33,15 @@
             android:text="Añadir Producto"
             android:layout_gravity="center"/>
 
+        <!-- Toolbar encima del CardView y el Botón -->
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/labarra"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@color/white"
+            android:elevation="4dp"
+            android:layout_alignParentBottom="true"/>
+
     </LinearLayout>
 
 </RelativeLayout>

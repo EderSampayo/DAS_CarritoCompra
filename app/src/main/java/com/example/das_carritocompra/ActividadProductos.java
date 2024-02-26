@@ -2,7 +2,10 @@ package com.example.das_carritocompra;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,6 +27,12 @@ public class ActividadProductos extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actividad_productos);
+
+        // Añadir las opciones del toolbar (Carrito, Productos, Usuario)
+        Toolbar toolbar = findViewById(R.id.labarra);
+        setSupportActionBar(toolbar);
+        // Aquí desactivamos el título en la barra
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
 
         List<Producto> productos = new ArrayList<>();
         productos.add(new Producto("Pera", "Carbohidrato"));
@@ -124,5 +134,32 @@ public class ActividadProductos extends AppCompatActivity {
 
         // Mostrar el cuadro de diálogo de alerta
         builder.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        /** Método para enseñar definicion_menu.xml **/
+        getMenuInflater().inflate(R.menu.definicion_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+
+        if (itemId == R.id.menu_carrito) {
+            // Iniciar Actividad 1
+            startActivity(new Intent(this, MainActivity.class));
+            return true;
+        } else if (itemId == R.id.menu_productos) {
+            // No hace nada, es la propia clase
+            return true;
+        } else if (itemId == R.id.menu_usuario) {
+            // Iniciar Actividad 3
+            startActivity(new Intent(this, ActividadUsuario.class));
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 }
