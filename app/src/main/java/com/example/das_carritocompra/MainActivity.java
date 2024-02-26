@@ -137,8 +137,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public boolean productoEnCarrito(String nombreProducto) {
-        return carrito.contains(nombreProducto);
-    }
-
 }
