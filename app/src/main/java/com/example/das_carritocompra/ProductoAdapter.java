@@ -54,13 +54,6 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             }
         });
 
-        holder.btnEditar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO
-            }
-        });
-
         holder.btnBorrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,7 +106,6 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         public TextView textViewNombre;
         public TextView textViewTipo;
         public ImageButton btnAgregar;
-        public Button btnEditar;
         public Button btnBorrar;
 
         public ViewHolder(@NonNull View itemView) {
@@ -121,7 +113,6 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
             textViewNombre = itemView.findViewById(R.id.textNombre);
             textViewTipo = itemView.findViewById(R.id.textTipo);
             btnAgregar = itemView.findViewById(R.id.btnAgregar);
-            btnEditar = itemView.findViewById(R.id.btnEditar);
             btnBorrar = itemView.findViewById(R.id.btnBorrar);
         }
     }
