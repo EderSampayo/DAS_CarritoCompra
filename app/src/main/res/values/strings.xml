@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name" translatable="false">DAS_CarritoCompra</string>
     <string name="carrito_text">Carrito de la Compra</string>
+    <string name="mensaje_eliminado">eliminado</string>
 
     <string name="btnAnadirProductoTexto">Añadir Producto</string>
     <string name="btnEditarProductoTexto">Editar Producto</string>

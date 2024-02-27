@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter.notifyDataSetChanged();
 
-                mostrarToast(productoTachado + " eliminado"); // Muestra el Toast con el mensaje
+                mostrarToast(productoTachado + " " + getString(R.string.mensaje_eliminado)); // Muestra el Toast con el mensaje
                 return true;
             }
         });
