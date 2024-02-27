@@ -8,11 +8,13 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -60,6 +62,15 @@ public class ActividadProductos extends AppCompatActivity {
                 openAddTaskActivity(productos);
             }
         });
+
+        Button editButton = findViewById(R.id.btnEditarProducto);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEditProductDialog(productos);
+            }
+        });
+
     }
 
     private void cargarProductosDesdeBD() {
@@ -166,6 +177,117 @@ public class ActividadProductos extends AppCompatActivity {
         // Mostrar el cuadro de diálogo de alerta
         builder.show();
     }
+
+    private void openEditProductDialog(List<Producto> productos) {
+        // Obtener la lista de nombres de productos para mostrar en el Spinner
+        String[] nombresProductos = obtenerNombresProductos();
+
+        // Crear un cuadro de diálogo de alerta con lista de selección
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Editar Producto");
+
+        // Configurar el layout del cuadro de diálogo
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+
+        // Crear el Spinner
+        Spinner spinnerProductos = new Spinner(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, nombresProductos);
+        spinnerProductos.setAdapter(adapter);
+        layout.addView(spinnerProductos);
+
+        // Crear un EditText para el nuevo nombre del producto
+        final EditText nuevoNombreEditText = new EditText(this);
+        nuevoNombreEditText.setHint("Nuevo Nombre");
+        layout.addView(nuevoNombreEditText);
+
+        // Crear el grupo de radio buttons
+        final RadioGroup radioGroup = new RadioGroup(this);
+        radioGroup.setOrientation(RadioGroup.VERTICAL);
+
+        // Crear los radio buttons
+        String[] opciones = {"Carbohidrato", "Proteína", "Grasa", "Otro"};
+        for (int i = 0; i < opciones.length; i++) {
+            RadioButton radioButton = new RadioButton(this);
+            radioButton.setText(opciones[i]);
+            radioGroup.addView(radioButton);
+        }
+        // Agregar el grupo de radio buttons al layout
+        layout.addView(radioGroup);
+
+        // Establecer el layout personalizado en el cuadro de diálogo
+        builder.setView(layout);
+
+        // Configurar el botón "Aceptar"
+        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Obtener el nombre del producto seleccionado
+                String nombreProductoSeleccionado = spinnerProductos.getSelectedItem().toString();
+
+                // Obtener el nuevo nombre del producto
+                String nuevoNombreProducto = nuevoNombreEditText.getText().toString().trim();
+
+                // Validar que se haya seleccionado un producto y se haya ingresado un nuevo nombre
+                if (!nombreProductoSeleccionado.isEmpty() && !nuevoNombreProducto.isEmpty()) {
+                    // Obtener el tipo seleccionado
+                    int radioButtonId = radioGroup.getCheckedRadioButtonId();
+                    RadioButton radioButton = radioGroup.findViewById(radioButtonId);
+                    String tipoSeleccionado = radioButton.getText().toString();
+
+                    // Actualizar el producto en la lista y en la base de datos
+                    actualizarProducto(nombreProductoSeleccionado, nuevoNombreProducto, tipoSeleccionado);
+
+                    // Mostrar el mensaje Toast
+                    mostrarToast(nombreProductoSeleccionado + " actualizado a " + nuevoNombreProducto);
+
+                    // Cerrar el diálogo
+                    dialog.dismiss();
+                } else {
+                    mostrarToast("Por favor, selecciona un producto y proporciona un nuevo nombre");
+                }
+            }
+        });
+
+        // Configurar el botón "Cancelar"
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel(); // Cerrar el cuadro de diálogo
+            }
+        });
+
+        // Mostrar el cuadro de diálogo de alerta
+        builder.show();
+    }
+
+    // Método para actualizar un producto en la lista y en la base de datos
+    private void actualizarProducto(String nombreAntiguo, String nuevoNombre, String tipo) {
+        // Actualizar en la lista
+        for (Producto producto : productos) {
+            if (producto.getNombre().equals(nombreAntiguo)) {
+                producto.setNombre(nuevoNombre);
+                producto.setTipo(tipo);
+                break;
+            }
+        }
+
+        // Actualizar en la base de datos
+        DatabaseHelper.getMiDatabaseHelper(ActividadProductos.this).actualizarProducto(nombreAntiguo, nuevoNombre, tipo);
+
+        // Notificar al adaptador que los datos han cambiado
+        adapter.notifyDataSetChanged();
+    }
+
+    // Método para obtener los nombres de todos los productos
+    private String[] obtenerNombresProductos() {
+        List<String> nombresProductos = new ArrayList<>();
+        for (Producto producto : productos) {
+            nombresProductos.add(producto.getNombre());
+        }
+        return nombresProductos.toArray(new String[0]);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

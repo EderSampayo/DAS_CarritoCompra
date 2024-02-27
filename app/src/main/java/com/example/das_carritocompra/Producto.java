@@ -16,4 +16,12 @@ public class Producto {
     public String getTipo() {
         return tipo;
     }
+
+    public void setNombre(String nuevoNombre) {
+        this.nombre = nuevoNombre;
+    }
+
+    public void setTipo(String nuevoTipo) {
+        this.tipo = nuevoTipo;
+    }
 }

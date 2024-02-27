@@ -94,4 +94,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM carrito_table", null);
     }
 
+    // Método para actualizar un producto en la tabla productos
+    public boolean actualizarProducto(String nombreAntiguo, String nuevoNombre, String tipo) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("nombre", nuevoNombre);
+        contentValues.put("tipo", tipo);
+
+        int result = db.update("productos_table", contentValues, "nombre = ?", new String[]{nombreAntiguo});
+
+        return result > 0;
+    }
+
+
 }

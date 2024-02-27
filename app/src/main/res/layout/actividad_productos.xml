@@ -33,6 +33,20 @@
             android:text="Añadir Producto"
             android:layout_gravity="center"/>
 
+        <!-- Botón debajo del AnadirProducto -->
+        <Button
+            android:id="@+id/btnEditarProducto"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Editar Producto"
+            android:layout_gravity="center"/>
+
+        <Spinner
+            android:id="@+id/spinnerProductos"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"/>
+
         <!-- Toolbar encima del CardView y el Botón -->
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/labarra"
