@@ -27,6 +27,8 @@
     <string name="no">No</string>
     <string name="borradoExitoso">successfully deleted</string>
     <string name="errorBorrado">Error deleting</string>
+    <string name="anadidoAlCarrito">added to cart</string>
+    <string name="errorAnadirAlCarrito">Error adding to cart</string>
 
 
     <string name="idioma">Language</string>

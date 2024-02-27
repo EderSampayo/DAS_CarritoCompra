@@ -28,6 +28,8 @@
     <string name="no">No</string>
     <string name="borradoExitoso">borrado exitosamente</string>
     <string name="errorBorrado">Error al borrar</string>
+    <string name="anadidoAlCarrito">añadido al carrito</string>
+    <string name="errorAnadirAlCarrito">Error al añadir al carrito</string>
 
 
     <string name="idioma">Idioma</string>

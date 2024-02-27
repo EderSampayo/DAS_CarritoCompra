@@ -50,7 +50,13 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
                 String nombreProducto = producto.getNombre();
 
                 // Llama al método en DatabaseHelper para agregar el producto al carrito
-                DatabaseHelper.getMiDatabaseHelper(view.getContext()).anadirAlCarrito(nombreProducto);
+                boolean exito = DatabaseHelper.getMiDatabaseHelper(view.getContext()).anadirAlCarrito(nombreProducto);
+                if (exito) {
+                    mostrarToast(nombreProducto + " " + context.getString(R.string.anadidoAlCarrito));
+                }
+                else {
+                    mostrarToast(context.getString(R.string.errorAnadirAlCarrito));
+                }
             }
         });
 
