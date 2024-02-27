@@ -1,8 +1,15 @@
 package com.example.das_carritocompra;
 
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.Menu;
@@ -20,6 +27,10 @@ import android.widget.EditText;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -31,6 +42,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Verificar si hay elementos en el carrito
+        DatabaseHelper databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
+        Cursor cartItems = databaseHelper.obtenerCarrito();
+
+        if (cartItems.moveToFirst()) {
+            // Mostrar notificación local
+            mostrarNotificacion();
+        }
+
         setContentView(R.layout.activity_main);
 
         // Añadir las opciones del toolbar (Carrito, Productos, Usuario)
@@ -43,8 +64,8 @@ public class MainActivity extends AppCompatActivity {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
 
         // Cargar la BBDD en el carrito
-        DatabaseHelper databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
-        Cursor cartItems = databaseHelper.obtenerCarrito();
+        databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
+        cartItems = databaseHelper.obtenerCarrito();
 
         ArrayList<String> carrito = new ArrayList<>();
         if (cartItems.moveToFirst()) {
@@ -105,6 +126,69 @@ public class MainActivity extends AppCompatActivity {
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    // Método para mostrar la notificación local
+    private void mostrarNotificacion() {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) !=
+                PackageManager.PERMISSION_GRANTED) {
+            // PEDIR EL PERMISO
+            ActivityCompat.requestPermissions(this, new
+                    String[]{Manifest.permission.POST_NOTIFICATIONS}, 11);
+        }
+
+        NotificationManager elManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationCompat.Builder elBuilder = new NotificationCompat.Builder(this, "IdCanal");
+
+        // Crear el canal de notificación
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel elCanal = new NotificationChannel("IdCanal", "NombreCanal",
+                    NotificationManager.IMPORTANCE_DEFAULT);
+            elManager.createNotificationChannel(elCanal);
+        }
+
+        // Configurar el NotificationCompat.Builder
+        elBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
+                .setContentTitle("Recordatorio")
+                .setContentText("¡No te olvides de comprar los productos del carrito!")
+                .setVibrate(new long[]{0, 1000, 500, 1000})
+                .setAutoCancel(true);
+
+        // Acción para ver el carrito
+        Intent verIntent = new Intent(this, MainActivity.class);
+        verIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        verIntent.setAction("Ver");
+
+        // Usar FLAG_IMMUTABLE o FLAG_MUTABLE aquí
+        PendingIntent verPendingIntent = PendingIntent.getActivity(this, 0, verIntent, PendingIntent.FLAG_IMMUTABLE);
+
+        // Agregar acciones a la notificación
+        elBuilder.addAction(android.R.drawable.ic_menu_revert, "Ver Carrito", verPendingIntent);
+
+        elManager.notify(1, elBuilder.build());
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    private void handleIntent(Intent intent) {
+        if (intent != null && intent.getAction() != null) {
+            switch (intent.getAction()) {
+                case "Ver":
+                    // Eliminar la notificación
+                    NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+                    notificationManager.cancel(1);
+
+                    // Iniciar la aplicación (en este caso, MainActivity)
+                    Intent mainActivityIntent = new Intent(this, MainActivity.class);
+                    mainActivityIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(mainActivityIntent);
+                    break;
+            }
         }
     }
 }
