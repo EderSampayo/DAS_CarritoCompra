@@ -28,14 +28,14 @@
                 android:id="@+id/radioButtonCastellano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Castellano"
+                android:text="@string/castellano"
                 android:checked="true" />
 
             <RadioButton
                 android:id="@+id/radioButtonIngles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Inglés" />
+                android:text="@string/ingles" />
         </RadioGroup>
     </LinearLayout>
 

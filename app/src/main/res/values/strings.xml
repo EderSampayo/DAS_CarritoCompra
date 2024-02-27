@@ -1,9 +1,12 @@
 <resources>
     <string name="app_name" translatable="false">DAS_CarritoCompra</string>
     <string name="carrito_text">Carrito de la Compra</string>
-    <string name="idioma">Idioma</string>
 
     <string name="btnAnadirProductoTexto">Añadir Producto</string>
     <string name="btnEditarProductoTexto">Editar Producto</string>
     <string name="btnBorrarProductoTexto">Borrar</string>
+
+    <string name="idioma">Idioma</string>
+    <string name="castellano">Castellano</string>
+    <string name="ingles">Inglés</string>
 </resources>
