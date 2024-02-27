@@ -34,7 +34,7 @@
             android:id="@+id/btnBorrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Borrar"/>
+            android:text="@string/btnBorrarProductoTexto"/>
     </LinearLayout>
 
     <!-- Botón redondo con símbolo "+" -->

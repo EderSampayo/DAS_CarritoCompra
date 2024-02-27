@@ -1,4 +1,8 @@
 <resources>
     <string name="carrito_text">Shopping Cart</string>
     <string name="idioma">Language</string>
+
+    <string name="btnAnadirProductoTexto">Add Product</string>
+    <string name="btnEditarProductoTexto">Edit Product</string>
+    <string name="btnBorrarProductoTexto">Delete</string>
 </resources>

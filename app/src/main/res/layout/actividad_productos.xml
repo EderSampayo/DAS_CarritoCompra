@@ -30,7 +30,7 @@
             android:id="@+id/btnAnadirProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Añadir Producto"
+            android:text="@string/btnAnadirProductoTexto"
             android:layout_gravity="center"/>
 
         <!-- Botón debajo del AnadirProducto -->
@@ -38,7 +38,7 @@
             android:id="@+id/btnEditarProducto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Editar Producto"
+            android:text="@string/btnEditarProductoTexto"
             android:layout_gravity="center"/>
 
         <Spinner
