@@ -101,7 +101,7 @@ public class ActividadProductos extends AppCompatActivity {
     private void openAddTaskActivity(List<Producto> productos) {
         // Crear un cuadro de diálogo de alerta
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Añadir Producto");
+        builder.setTitle(R.string.btnAnadirProductoTexto);
 
         // Configurar el diseño del cuadro de diálogo
         LinearLayout layout = new LinearLayout(this);
@@ -116,14 +116,19 @@ public class ActividadProductos extends AppCompatActivity {
         radioGroup.setOrientation(RadioGroup.VERTICAL);
 
         // Crear los radio buttons
-        String[] opciones = {"Carbohidrato", "Proteína", "Grasa", "Otro"};
+        String[] opciones = {
+                getString(R.string.Carbohidrato),
+                getString(R.string.Proteina),
+                getString(R.string.Grasa),
+                getString(R.string.Otro)
+        };
         for (int i = 0; i < opciones.length; i++) {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(opciones[i]);
             radioGroup.addView(radioButton);
 
             // Seleccionar "Carbohidrato" por defecto
-            if (opciones[i].equals("Carbohidrato")) {
+            if (opciones[i].equals(R.string.Carbohidrato)) {
                 radioButton.setChecked(true);
             }
         }
@@ -134,7 +139,7 @@ public class ActividadProductos extends AppCompatActivity {
         builder.setView(layout);
 
         // Configurar el botón "Añadir"
-        builder.setPositiveButton("Añadir", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.Aceptar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Obtener el texto ingresado
@@ -159,15 +164,15 @@ public class ActividadProductos extends AppCompatActivity {
                     DatabaseHelper.getMiDatabaseHelper(ActividadProductos.this).anadirProducto(nombreProducto, tipoSeleccionado);
 
                     // Mostrar el mensaje Toast
-                    mostrarToast(nombreProducto + " añadido");
+                    mostrarToast(nombreProducto + " " + getString(R.string.anadido));
                 } else {
-                    mostrarToast("Por favor, ingresa un texto");
+                    mostrarToast(getString(R.string.errorAnadir));
                 }
             }
         });
 
         // Configurar el botón "Cancelar"
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.Cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel(); // Cerrar el cuadro de diálogo
@@ -184,7 +189,7 @@ public class ActividadProductos extends AppCompatActivity {
 
         // Crear un cuadro de diálogo de alerta con lista de selección
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Editar Producto");
+        builder.setTitle(R.string.btnEditarProductoTexto);
 
         // Configurar el layout del cuadro de diálogo
         LinearLayout layout = new LinearLayout(this);
@@ -198,7 +203,7 @@ public class ActividadProductos extends AppCompatActivity {
 
         // Crear un EditText para el nuevo nombre del producto
         final EditText nuevoNombreEditText = new EditText(this);
-        nuevoNombreEditText.setHint("Nuevo Nombre");
+        nuevoNombreEditText.setHint(R.string.nuevoNombre);
         layout.addView(nuevoNombreEditText);
 
         // Crear el grupo de radio buttons
@@ -206,7 +211,12 @@ public class ActividadProductos extends AppCompatActivity {
         radioGroup.setOrientation(RadioGroup.VERTICAL);
 
         // Crear los radio buttons
-        String[] opciones = {"Carbohidrato", "Proteína", "Grasa", "Otro"};
+        String[] opciones = {
+                getString(R.string.Carbohidrato),
+                getString(R.string.Proteina),
+                getString(R.string.Grasa),
+                getString(R.string.Otro)
+        };
         for (int i = 0; i < opciones.length; i++) {
             RadioButton radioButton = new RadioButton(this);
             radioButton.setText(opciones[i]);
@@ -219,7 +229,7 @@ public class ActividadProductos extends AppCompatActivity {
         builder.setView(layout);
 
         // Configurar el botón "Aceptar"
-        builder.setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(R.string.Aceptar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // Obtener el nombre del producto seleccionado
@@ -239,18 +249,18 @@ public class ActividadProductos extends AppCompatActivity {
                     actualizarProducto(nombreProductoSeleccionado, nuevoNombreProducto, tipoSeleccionado);
 
                     // Mostrar el mensaje Toast
-                    mostrarToast(nombreProductoSeleccionado + " actualizado a " + nuevoNombreProducto);
+                    mostrarToast(nombreProductoSeleccionado + " " + getString(R.string.actualizadoA) + " " + nuevoNombreProducto);
 
                     // Cerrar el diálogo
                     dialog.dismiss();
                 } else {
-                    mostrarToast("Por favor, selecciona un producto y proporciona un nuevo nombre");
+                    mostrarToast(getString(R.string.errorEditar));
                 }
             }
         });
 
         // Configurar el botón "Cancelar"
-        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton(R.string.Cancelar, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.cancel(); // Cerrar el cuadro de diálogo

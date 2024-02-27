@@ -2,9 +2,25 @@
     <string name="carrito_text">Shopping Cart</string>
     <string name="mensaje_eliminado">deleted</string>
 
+
     <string name="btnAnadirProductoTexto">Add Product</string>
     <string name="btnEditarProductoTexto">Edit Product</string>
     <string name="btnBorrarProductoTexto">Delete</string>
+
+    <string name="Carbohidrato">Carbohydrate</string>
+    <string name="Proteina">Protein</string>
+    <string name="Grasa">Fat</string>
+    <string name="Otro">Other</string>
+
+    <string name="Aceptar">Ok</string>
+    <string name="Cancelar">Cancel</string>
+
+    <string name="nuevoNombre">New Name</string>
+    <string name="anadido"> added</string>
+    <string name="actualizadoA"> updated to </string>
+    <string name="errorAnadir">Please enter a text</string>
+    <string name="errorEditar">Please select a product and provide a new name</string>
+
 
     <string name="idioma">Language</string>
     <string name="castellano">Spanish</string>

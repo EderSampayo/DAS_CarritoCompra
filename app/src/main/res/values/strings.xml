@@ -3,9 +3,25 @@
     <string name="carrito_text">Carrito de la Compra</string>
     <string name="mensaje_eliminado">eliminado</string>
 
+
     <string name="btnAnadirProductoTexto">Añadir Producto</string>
     <string name="btnEditarProductoTexto">Editar Producto</string>
     <string name="btnBorrarProductoTexto">Borrar</string>
+
+    <string name="Carbohidrato">Carbohidrato</string>
+    <string name="Proteina">Proteina</string>
+    <string name="Grasa">Grasa</string>
+    <string name="Otro">Otro</string>
+
+    <string name="Aceptar">Aceptar</string>
+    <string name="Cancelar">Cancelar</string>
+
+    <string name="nuevoNombre">Nuevo Nombre</string>
+    <string name="anadido"> añadido</string>
+    <string name="actualizadoA"> actualizado a </string>
+    <string name="errorAnadir">"Por favor, ingresa un texto"</string>
+    <string name="errorEditar">Por favor, selecciona un producto y proporciona un nuevo nombre</string>
+
 
     <string name="idioma">Idioma</string>
     <string name="castellano">Castellano</string>
