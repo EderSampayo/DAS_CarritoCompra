@@ -4,8 +4,8 @@
     <!-- Opciones en la ActionBar -->
     <item
         android:id="@+id/menu_carrito"
-        android:icon="@drawable/carrito"
         android:title="Carrito"
+        android:icon="@drawable/carrito"
         app:showAsAction="ifRoom" />
 
     <item
