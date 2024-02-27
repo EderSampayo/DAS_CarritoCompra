@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">DAS_CarritoCompra</string>
+    <string name="app_name" translatable="false">DAS_CarritoCompra</string>
+    <string name="carrito_text">Carrito de la Compra</string>
+    <string name="idioma">Idioma</string>
 </resources>

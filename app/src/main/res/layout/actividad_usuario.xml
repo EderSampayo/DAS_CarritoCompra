@@ -16,7 +16,7 @@
             android:id="@+id/textViewIdioma"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Idioma" />
+            android:text="@string/idioma" />
 
         <RadioGroup
             android:id="@+id/radioGroupIdioma"
