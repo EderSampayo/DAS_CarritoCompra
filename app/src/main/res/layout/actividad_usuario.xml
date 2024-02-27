@@ -36,12 +36,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Inglés" />
-
-            <RadioButton
-                android:id="@+id/radioButtonEuskera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Euskera" />
         </RadioGroup>
     </LinearLayout>
 
