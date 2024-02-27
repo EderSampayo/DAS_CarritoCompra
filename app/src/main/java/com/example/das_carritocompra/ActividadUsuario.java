@@ -7,8 +7,10 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -81,10 +83,35 @@ public class ActividadUsuario extends AppCompatActivity {
             }
         });
 
+        // Obtén una referencia al Switch en el layout
+        Switch switchEstilo = findViewById(R.id.switchEstilo);
+
+        // Configura un listener para el cambio de estado del Switch
+        switchEstilo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // Cambiar dinámicamente el estilo de la barra de navegación
+                cambiarEstiloBarraNavegacion(isChecked ? "oscura" : "blanca");
+            }
+        });
+
 
         Toolbar toolbar = findViewById(R.id.labarra);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
+    }
+
+    // Método para cambiar dinámicamente el estilo de la barra de navegación
+    private void cambiarEstiloBarraNavegacion(String estilo) {
+        Toolbar toolbar = findViewById(R.id.labarra);
+
+        if (estilo.equals("blanca")) {
+            // Establecer el fondo blanco para el estilo NavbarBlanca
+            toolbar.setBackgroundColor(getResources().getColor(android.R.color.white));
+        } else {
+            // Establecer el fondo negro para el estilo NavbarOscura
+            toolbar.setBackgroundColor(getResources().getColor(android.R.color.black));
+        }
     }
 
     @Override

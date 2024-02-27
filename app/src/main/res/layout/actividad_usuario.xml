@@ -37,6 +37,13 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ingles" />
         </RadioGroup>
+        <!-- Switch para cambiar entre estilos de la barra de navegación -->
+        <Switch
+            android:id="@+id/switchEstilo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/cambiarEstiloNavbar"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 
     <!-- Toolbar en la parte inferior -->

@@ -30,6 +30,7 @@
     <string name="errorBorrado">Error al borrar</string>
     <string name="anadidoAlCarrito">añadido al carrito</string>
     <string name="errorAnadirAlCarrito">Error al añadir al carrito</string>
+    <string name="cambiarEstiloNavbar">Cambiar Estilo Navbar</string>
 
 
     <string name="idioma">Idioma</string>
