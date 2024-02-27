@@ -62,11 +62,11 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
 
                 // Crear un cuadro de diálogo de confirmación para borrar el producto
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setTitle("Confirmar Borrado");
-                builder.setMessage("¿Estás seguro de que quieres borrar " + nombreProducto + "?");
+                builder.setTitle(R.string.confirmarBorrado);
+                builder.setMessage(context.getString(R.string.estasSeguroBorrado) + " " + nombreProducto + "?");
 
                 // Configurar el botón "Sí"
-                builder.setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(R.string.si, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // Llama al método en DatabaseHelper para borrar el producto
@@ -76,15 +76,15 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
                             // Si se borra correctamente, actualiza la lista y notifica al adaptador
                             productos.remove(producto);
                             notifyDataSetChanged();
-                            mostrarToast(nombreProducto + " borrado exitosamente");
+                            mostrarToast(nombreProducto + " " + context.getString(R.string.borradoExitoso));
                         } else {
-                            mostrarToast("Error al borrar " + nombreProducto);
+                            mostrarToast(context.getString(R.string.errorBorrado) + " " + nombreProducto);
                         }
                     }
                 });
 
                 // Configurar el botón "No"
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // No hacer nada, simplemente cerrar el cuadro de diálogo

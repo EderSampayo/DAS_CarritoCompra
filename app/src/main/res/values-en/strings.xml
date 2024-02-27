@@ -21,6 +21,13 @@
     <string name="errorAnadir">Please enter a text</string>
     <string name="errorEditar">Please select a product and provide a new name</string>
 
+    <string name="confirmarBorrado">Confirm Deletion</string>
+    <string name="estasSeguroBorrado">Are you sure you want to delete</string>
+    <string name="si">Yes</string>
+    <string name="no">No</string>
+    <string name="borradoExitoso">successfully deleted</string>
+    <string name="errorBorrado">Error deleting</string>
+
 
     <string name="idioma">Language</string>
     <string name="castellano">Spanish</string>
