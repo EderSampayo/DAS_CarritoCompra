@@ -27,7 +27,7 @@
         android:id="@+id/labarra"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="#1E1E1E"
         android:elevation="4dp"
         android:layout_alignParentBottom="true"
         />

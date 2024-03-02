@@ -1,23 +1,27 @@
 <menu xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
 
     <!-- Opciones en la ActionBar -->
     <item
         android:id="@+id/menu_carrito"
         android:title="Carrito"
-        android:icon="@drawable/carrito"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/carrito_blanco"
+        app:showAsAction="ifRoom"
+        />
 
     <item
         android:id="@+id/menu_productos"
         android:title="Productos"
-        android:icon="@drawable/uvas"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/uvas_blanco"
+        app:showAsAction="ifRoom"
+        />
 
     <item
         android:id="@+id/menu_usuario"
         android:title="Usuario"
-        android:icon="@drawable/usuario"
-        app:showAsAction="ifRoom" />
+        android:icon="@drawable/usuario_blanco"
+        app:showAsAction="ifRoom"
+        />
 
 </menu>

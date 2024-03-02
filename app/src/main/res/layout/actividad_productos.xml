@@ -1,27 +1,31 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    >
 
     <!-- Contenedor para CardView y Botón -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_margin="16dp">
+        android:layout_margin="16dp"
+        >
 
         <!-- RecyclerView envuelto en CardView -->
         <androidx.cardview.widget.CardView
             android:id="@+id/cardView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="8dp"/>
+                android:padding="8dp"
+                />
 
         </androidx.cardview.widget.CardView>
 
@@ -31,7 +35,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnAnadirProductoTexto"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            />
 
         <!-- Botón debajo del AnadirProducto -->
         <Button
@@ -39,23 +44,26 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/btnEditarProductoTexto"
-            android:layout_gravity="center"/>
+            android:layout_gravity="center"
+            />
 
         <Spinner
             android:id="@+id/spinnerProductos"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"/>
-
-        <!-- Toolbar encima del CardView y el Botón -->
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/labarra"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@color/white"
-            android:elevation="4dp"
-            android:layout_alignParentBottom="true"/>
+            android:layout_marginTop="16dp"
+            />
 
     </LinearLayout>
+
+    <!-- Toolbar en la parte inferior -->
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/labarra"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="#1E1E1E"
+        android:elevation="4dp"
+        android:layout_alignParentBottom="true"
+        />
 
 </RelativeLayout>

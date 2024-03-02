@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    >
 
     <!-- Sección de idioma con TextView e RadioButtons en disposición vertical -->
     <LinearLayout
@@ -10,32 +11,37 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        >
 
         <TextView
             android:id="@+id/textViewIdioma"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/idioma" />
+            android:text="@string/idioma"
+            />
 
         <RadioGroup
             android:id="@+id/radioGroupIdioma"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            >
 
             <RadioButton
                 android:id="@+id/radioButtonCastellano"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/castellano"
-                android:checked="true" />
+                android:checked="true"
+                />
 
             <RadioButton
                 android:id="@+id/radioButtonIngles"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/ingles" />
+                android:text="@string/ingles"
+                />
         </RadioGroup>
         <!-- Switch para cambiar entre estilos de la barra de navegación -->
         <Switch
@@ -43,7 +49,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/modoOscuro"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+            />
     </LinearLayout>
 
     <!-- Toolbar en la parte inferior -->
@@ -51,8 +58,9 @@
         android:id="@+id/labarra"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/white"
+        android:background="#1E1E1E"
         android:elevation="4dp"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        />
 
 </LinearLayout>
