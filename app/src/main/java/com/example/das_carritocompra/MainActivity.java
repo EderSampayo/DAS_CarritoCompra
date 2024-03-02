@@ -18,6 +18,7 @@ import android.provider.ContactsContract;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -34,6 +35,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -161,6 +164,31 @@ public class MainActivity extends AppCompatActivity {
                 importarCarrito();
             }
         });
+
+        // Verificar la orientación de la pantalla
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // La pantalla está en modo horizontal, por lo tanto, agregamos el Fragment
+            agregarFragment();
+        } else {
+            listView = findViewById(R.id.listView);
+
+            // Configurar parámetros de diseño para que el ListView ocupe todo el ancho
+            ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            listView.setLayoutParams(layoutParams);
+
+            // La pantalla está en modo vertical, por lo tanto, ocultamos el Fragment si está presente
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            ProductosFragment fragment = (ProductosFragment) fragmentManager.findFragmentById(R.id.fragmentContainer);
+
+            if (fragment != null) {
+                FragmentTransaction transaction = fragmentManager.beginTransaction();
+                transaction.remove(fragment);
+                transaction.commit();
+            }
+        }
     }
 
     private void comprobarRepeticionesCarrito(ArrayList<String> carrito) {
@@ -458,5 +486,13 @@ public class MainActivity extends AppCompatActivity {
         // Por ejemplo, agregar a la base de datos y actualizar la lista
         carrito.add(producto);
         DatabaseHelper.getMiDatabaseHelper(this).anadirAlCarrito(producto);
+    }
+
+    private void agregarFragment() {
+        // Crea una instancia del Fragment y realiza la transacción
+        ProductosFragment tuFragment = new ProductosFragment();
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragmentContainer, tuFragment);
+        transaction.commit();
     }
 }
