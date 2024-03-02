@@ -1,6 +1,8 @@
 <resources>
     <string name="carrito_text">Shopping Cart</string>
     <string name="mensaje_eliminado">deleted</string>
+    <string name="btnImportar">Import cart</string>
+    <string name="btnExportar">Export cart</string>
 
 
     <string name="btnAnadirProductoTexto">Add Product</string>

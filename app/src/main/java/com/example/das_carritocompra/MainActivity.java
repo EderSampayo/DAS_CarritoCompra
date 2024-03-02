@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -34,13 +35,22 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
     private ArrayList<String> carrito;
     private ArrayAdapter<String> adapter;
     private DatabaseHelper databaseHelper;
+    private static final int REQUEST_SAVE_FILE = 1;
+    private StringBuilder contenidoArchivo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +132,14 @@ public class MainActivity extends AppCompatActivity {
 
                 mostrarToast(productoTachado + " " + getString(R.string.mensaje_eliminado)); // Muestra el Toast con el mensaje
                 return true;
+            }
+        });
+
+        Button btnExportar = findViewById(R.id.btnExportar);
+        btnExportar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                exportarCarrito(carrito);
             }
         });
     }
@@ -237,6 +255,60 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(mainActivityIntent);
                     break;
             }
+        }
+    }
+
+    private void exportarCarrito(ArrayList<String> pCarrito) {
+
+        // Verificar si hay elementos en el carrito
+        if (pCarrito.isEmpty()) {
+            mostrarToast("El carrito está vacío.");
+            return;
+        }
+
+        // Crear una cadena que contendrá los elementos del carrito
+        contenidoArchivo = new StringBuilder();
+        for (String producto : pCarrito) {
+            contenidoArchivo.append(producto).append("\n");
+        }
+
+        // Abrir el explorador de documentos para que el usuario elija la ubicación
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+        intent.putExtra(Intent.EXTRA_TITLE, "carrito_exportado.txt");
+
+        startActivityForResult(intent, REQUEST_SAVE_FILE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_SAVE_FILE && resultCode == RESULT_OK && data != null) {
+            // Obtener la URI del archivo seleccionado por el usuario
+            Uri uri = data.getData();
+
+            // Guardar el contenido en el archivo seleccionado
+            if (guardarContenidoEnUri(contenidoArchivo.toString(), uri)) {
+                mostrarToast("Carrito exportado con éxito.");
+            } else {
+                mostrarToast("Error al exportar el carrito.");
+            }
+        }
+    }
+
+    private boolean guardarContenidoEnUri(String contenido, Uri uri) {
+        try {
+            OutputStream outputStream = getContentResolver().openOutputStream(uri);
+            BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(outputStream));
+            writer.write(contenido);
+            writer.close();
+            outputStream.close();
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

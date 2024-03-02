@@ -2,6 +2,8 @@
     <string name="app_name" translatable="false">DAS_CarritoCompra</string>
     <string name="carrito_text">Carrito de la Compra</string>
     <string name="mensaje_eliminado">eliminado</string>
+    <string name="btnImportar">Importar carrito</string>
+    <string name="btnExportar">Exportar carrito</string>
 
 
     <string name="btnAnadirProductoTexto">Añadir Producto</string>
