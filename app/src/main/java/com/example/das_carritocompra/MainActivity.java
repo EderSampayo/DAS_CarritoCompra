@@ -41,6 +41,8 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 
 import java.io.BufferedWriter;
@@ -87,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Verificar si hay elementos en el carrito
-        DatabaseHelper databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
+        databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
         Cursor cartItems = databaseHelper.obtenerCarrito();
 
         if (cartItems.moveToFirst()) {
@@ -118,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
             } while (cartItems.moveToNext());
         }
 
+        comprobarRepeticionesCarrito(carrito);
+
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -129,8 +133,11 @@ public class MainActivity extends AppCompatActivity {
                 String productoTachado = carrito.get(i); // Guarda el nombre de la tarea eliminada
                 carrito.remove(i);
 
+                // Obtener la última parte del string
+                String productoAEliminar = obtenerSegundaParteDelString(productoTachado);
+
                 // Eliminar de la base de datos
-                DatabaseHelper.getMiDatabaseHelper(view.getContext()).borrarDelCarrito(productoTachado);
+                DatabaseHelper.getMiDatabaseHelper(view.getContext()).borrarDelCarrito(productoAEliminar);
 
                 adapter.notifyDataSetChanged();
 
@@ -143,7 +150,7 @@ public class MainActivity extends AppCompatActivity {
         btnExportar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                exportarCarrito(carrito);
+                exportarCarrito();
             }
         });
 
@@ -154,6 +161,59 @@ public class MainActivity extends AppCompatActivity {
                 importarCarrito();
             }
         });
+    }
+
+    private void comprobarRepeticionesCarrito(ArrayList<String> carrito) {
+        // Utilizar un HashMap para llevar un registro de la frecuencia de cada producto
+        HashMap<String, Integer> frecuenciaProductos = new HashMap<>();
+
+        // Iterar sobre el carrito y contar la frecuencia de cada producto
+        for (String producto : carrito) {
+            frecuenciaProductos.put(producto, frecuenciaProductos.getOrDefault(producto, 0) + 1);
+        }
+
+        // Construir una nueva lista con los productos ajustados
+        ArrayList<String> carritoAjustado = new ArrayList<>();
+        for (String producto : carrito) {
+            int frecuencia = frecuenciaProductos.get(producto);
+
+            // Añadir el producto solo una vez seguido por el número de repeticiones
+            if (!carritoAjustado.contains(frecuencia + " x " + producto)) {
+                carritoAjustado.add(frecuencia + " x " + producto);
+            }
+        }
+
+        // Limpiar el carrito original y agregar los elementos ajustados
+        carrito.clear();
+        carrito.addAll(carritoAjustado);
+
+        // Notificar al adaptador que los datos han cambiado
+        adapter.notifyDataSetChanged();
+    }
+
+    private String obtenerSegundaParteDelString(String pProductoTachado) {
+        // Obtener la última parte del string
+        String[] partes = pProductoTachado.split(" ");
+
+        // Obtener la posición a partir de la cual deseas concatenar
+        int posicionInicio = 2;
+
+        // Verificar si la posición de inicio es válida
+        String resultadoFinal = "";
+        if (posicionInicio >= 0 && posicionInicio < partes.length) {
+            StringBuilder resultadoConcatenado = new StringBuilder();
+
+            // Iterar a través de las partes y concatenarlas
+            for (int j = posicionInicio; j < partes.length; j++) {
+                resultadoConcatenado.append(partes[j]);
+                if (j < partes.length - 1) {
+                    resultadoConcatenado.append(" "); // Agregar un espacio entre las partes
+                }
+            }
+            // El resultado final
+            resultadoFinal = resultadoConcatenado.toString();
+        }
+        return resultadoFinal;
     }
 
     // Método para mostrar un Toast
@@ -270,17 +330,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void exportarCarrito(ArrayList<String> pCarrito) {
+    private void exportarCarrito() {
+        Cursor cartItems = databaseHelper.obtenerCarrito();
+
+        ArrayList<String> elCarrito = new ArrayList<>();
+        if (cartItems.moveToFirst()) {
+            do {
+                String producto = cartItems.getString(cartItems.getColumnIndex("producto"));
+                elCarrito.add(producto);
+            } while (cartItems.moveToNext());
+        }
 
         // Verificar si hay elementos en el carrito
-        if (pCarrito.isEmpty()) {
+        if (elCarrito.isEmpty()) {
             mostrarToast("El carrito está vacío.");
             return;
         }
 
         // Crear una cadena que contendrá los elementos del carrito
         contenidoArchivo = new StringBuilder();
-        for (String producto : pCarrito) {
+        for (String producto : elCarrito) {
             contenidoArchivo.append(producto).append("\n");
         }
 
