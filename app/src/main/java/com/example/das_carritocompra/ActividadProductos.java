@@ -1,8 +1,11 @@
 package com.example.das_carritocompra;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,6 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ActividadProductos extends AppCompatActivity {
     private List<Producto> productos;
@@ -31,6 +35,33 @@ public class ActividadProductos extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Obtener las preferencias
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+
+        // Obtener la preferencia del idioma guardada
+        String idiomaSeleccionado = prefs.getString("idioma", "es"); // Por defecto, es castellano
+
+        // Establecer el idioma de la aplicación
+        Locale nuevaloc = new Locale(idiomaSeleccionado);
+        Locale.setDefault(nuevaloc);
+
+        Configuration configuration = getResources().getConfiguration();
+        configuration.setLocale(nuevaloc);
+        configuration.setLayoutDirection(nuevaloc);
+
+        Context context = createConfigurationContext(configuration);
+        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+
+        // Obtén el valor de preferencia de "estadoSwitch" (el segundo parámetro es el valor predeterminado si la clave no está presente)
+        boolean switchEstado = prefs.getBoolean("estadoSwitch", false);
+        if (switchEstado) {
+            setTheme(R.style.ModoOscuro);
+        }
+        else {
+            setTheme(R.style.ModoClaro);
+        }
+
         setContentView(R.layout.actividad_productos);
 
         // Añadir las opciones del toolbar (Carrito, Productos, Usuario)

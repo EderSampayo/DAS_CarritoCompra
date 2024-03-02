@@ -12,14 +12,16 @@
         android:layout_height="wrap_content"
         android:text="@string/carrito_text"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/textViewCarrito"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="16dp"
+        />
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/labarra"
@@ -27,5 +29,6 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/white"
         android:elevation="4dp"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        />
 </RelativeLayout>

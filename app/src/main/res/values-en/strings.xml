@@ -29,7 +29,7 @@
     <string name="errorBorrado">Error deleting</string>
     <string name="anadidoAlCarrito">added to cart</string>
     <string name="errorAnadirAlCarrito">Error adding to cart</string>
-    <string name="cambiarEstiloNavbar">Change Navbar Style</string>
+    <string name="modoOscuro">Dark Mode</string>
 
 
     <string name="idioma">Language</string>

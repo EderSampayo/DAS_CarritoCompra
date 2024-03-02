@@ -22,14 +22,27 @@ import java.util.Locale;
 public class ActividadUsuario extends AppCompatActivity {
     private RadioGroup radioGroupIdioma;
     private TextView textViewIdioma;
+    private Switch switchEstilo;
+    private SharedPreferences prefs;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Obtener la preferencia del idioma guardada
+        // Obtener las preferencias
         SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        String idiomaSeleccionado = prefs.getString("idioma", "es"); // Por defecto, es español
+
+        // Obtener la preferencia del idioma guardada
+        String idiomaSeleccionado = prefs.getString("idioma", "es"); // Por defecto, es castellano
+
+        // Obtén el valor de preferencia de "estadoSwitch" (el segundo parámetro es el valor predeterminado si la clave no está presente)
+        boolean switchEstado = prefs.getBoolean("estadoSwitch", false);
+        if (switchEstado) {
+            setTheme(R.style.ModoOscuro);
+        }
+        else {
+            setTheme(R.style.ModoClaro);
+        }
 
         // Establecer el idioma de la aplicación
         Locale nuevaloc = new Locale(idiomaSeleccionado);
@@ -87,11 +100,20 @@ public class ActividadUsuario extends AppCompatActivity {
         Switch switchEstilo = findViewById(R.id.switchEstilo);
 
         // Configura un listener para el cambio de estado del Switch
+        switchEstilo.setChecked(prefs.getBoolean("estadoSwitch", false)); // Cargar el estado del Switch
+
+        // Configura un listener para el cambio de estado del Switch
         switchEstilo.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // Cambiar dinámicamente el estilo de la barra de navegación
-                cambiarEstiloBarraNavegacion(isChecked ? "oscura" : "blanca");
+                // Guardar el estado del Switch
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean("estadoSwitch", isChecked);
+                editor.apply();
+
+                // Reiniciar la actividad para aplicar el nuevo estilo
+                finish();
+                startActivity(getIntent());
             }
         });
 
@@ -99,19 +121,6 @@ public class ActividadUsuario extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.labarra);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-    }
-
-    // Método para cambiar dinámicamente el estilo de la barra de navegación
-    private void cambiarEstiloBarraNavegacion(String estilo) {
-        Toolbar toolbar = findViewById(R.id.labarra);
-
-        if (estilo.equals("blanca")) {
-            // Establecer el fondo blanco para el estilo NavbarBlanca
-            toolbar.setBackgroundColor(getResources().getColor(android.R.color.white));
-        } else {
-            // Establecer el fondo negro para el estilo NavbarOscura
-            toolbar.setBackgroundColor(getResources().getColor(android.R.color.black));
-        }
     }
 
     @Override
