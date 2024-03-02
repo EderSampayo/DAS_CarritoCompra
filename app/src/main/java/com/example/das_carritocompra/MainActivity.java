@@ -35,6 +35,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.ContextCompat;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
@@ -50,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     private ArrayAdapter<String> adapter;
     private DatabaseHelper databaseHelper;
     private static final int REQUEST_SAVE_FILE = 1;
+    private static final int REQUEST_IMPORT_FILE = 2;
     private StringBuilder contenidoArchivo;
 
     @Override
@@ -140,6 +144,14 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 exportarCarrito(carrito);
+            }
+        });
+
+        Button btnImportar = findViewById(R.id.btnImportar);
+        btnImportar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                importarCarrito();
             }
         });
     }
@@ -296,6 +308,17 @@ public class MainActivity extends AppCompatActivity {
                 mostrarToast("Error al exportar el carrito.");
             }
         }
+
+        if (requestCode == REQUEST_IMPORT_FILE && resultCode == RESULT_OK && data != null) {
+            // Obtener la URI del archivo seleccionado por el usuario
+            Uri uri = data.getData();
+
+            // Leer el contenido del archivo seleccionado
+            String contenidoImportado = leerContenidoDesdeUri(uri);
+
+            // Procesar el contenido importado como desees (por ejemplo, agregarlo al carrito)
+            procesarContenidoImportado(contenidoImportado);
+        }
     }
 
     private boolean guardarContenidoEnUri(String contenido, Uri uri) {
@@ -310,5 +333,61 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
             return false;
         }
+    }
+
+    private void importarCarrito() {
+        // Abrir el explorador de documentos para que el usuario seleccione el archivo a importar
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("text/plain");
+
+        startActivityForResult(intent, REQUEST_IMPORT_FILE);
+    }
+
+    private String leerContenidoDesdeUri(Uri uri) {
+        try {
+            StringBuilder contenido = new StringBuilder();
+            InputStream inputStream = getContentResolver().openInputStream(uri);
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String linea;
+            while ((linea = reader.readLine()) != null) {
+                contenido.append(linea).append("\n");
+            }
+            reader.close();
+            inputStream.close();
+            return contenido.toString();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
+    }
+
+    private void procesarContenidoImportado(String contenidoImportado) {
+        // Aquí puedes procesar el contenido importado según tus necesidades
+        // Por ejemplo, agregar elementos al carrito o realizar alguna otra acción
+
+        // Ejemplo: Dividir el contenido por líneas y agregar cada línea al carrito
+        String[] lineas = contenidoImportado.split("\n");
+        for (String linea : lineas) {
+            // Agregar la línea al carrito (si es necesario)
+            // Puedes llamar a tu método para agregar elementos al carrito aquí
+            agregarAlCarrito(linea);
+        }
+
+        // Notificar al adaptador que los datos han cambiado
+        adapter.notifyDataSetChanged();
+
+        mostrarToast("Carrito importado con éxito.");
+
+        // Recargar la actividad para aplicar/visualizar los cambios
+        finish();
+        startActivity(getIntent());
+    }
+
+    private void agregarAlCarrito(String producto) {
+        // Lógica para agregar elementos al carrito (puedes adaptarla según tu implementación)
+        // Por ejemplo, agregar a la base de datos y actualizar la lista
+        carrito.add(producto);
+        DatabaseHelper.getMiDatabaseHelper(this).anadirAlCarrito(producto);
     }
 }
