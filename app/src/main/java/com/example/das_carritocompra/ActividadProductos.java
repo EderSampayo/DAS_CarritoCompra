@@ -80,7 +80,7 @@ public class ActividadProductos extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
-        adapter = new ProductoAdapter(getApplicationContext(), productos);
+        adapter = new ProductoAdapter(this, productos);
         recyclerView.setAdapter(adapter);
 
         // Cargar productos de la BBDD
