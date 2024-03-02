@@ -54,8 +54,8 @@ public class ActividadProductos extends AppCompatActivity {
         getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
 
         // Obtén el valor de preferencia de "estadoSwitch" (el segundo parámetro es el valor predeterminado si la clave no está presente)
-        boolean switchEstado = prefs.getBoolean("estadoSwitch", false);
-        if (switchEstado) {
+        boolean modoOscuroActivado = prefs.getBoolean("estadoSwitch", false);
+        if (modoOscuroActivado) {
             setTheme(R.style.ModoOscuro);
         }
         else {
@@ -334,6 +334,25 @@ public class ActividadProductos extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         /** Método para enseñar definicion_menu.xml **/
         getMenuInflater().inflate(R.menu.definicion_menu,menu);
+
+        // Obtener la referencia a los elementos del menú
+        MenuItem carritoItem = menu.findItem(R.id.menu_carrito);
+        MenuItem productosItem = menu.findItem(R.id.menu_productos);
+        MenuItem usuarioItem = menu.findItem(R.id.menu_usuario);
+
+        // Configurar el ícono según el modo claro u oscuro
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        boolean modoOscuroActivado = prefs.getBoolean("estadoSwitch", false);
+        if (modoOscuroActivado) {
+            carritoItem.setIcon(R.drawable.carrito_blanco);
+            productosItem.setIcon(R.drawable.uvas_blanco);
+            usuarioItem.setIcon(R.drawable.usuario_blanco);
+        } else {
+            carritoItem.setIcon(R.drawable.carrito);
+            productosItem.setIcon(R.drawable.uvas);
+            usuarioItem.setIcon(R.drawable.usuario);
+        }
+
         return true;
     }
 
