@@ -385,7 +385,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void agregarAlCarrito(String producto) {
-        // Lógica para agregar elementos al carrito (puedes adaptarla según tu implementación)
+        // Lógica para agregar elementos al carrito
         // Por ejemplo, agregar a la base de datos y actualizar la lista
         carrito.add(producto);
         DatabaseHelper.getMiDatabaseHelper(this).anadirAlCarrito(producto);
