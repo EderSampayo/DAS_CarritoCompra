@@ -25,12 +25,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Crear la tabla para el carrito
-        String createCarritoTable = "CREATE TABLE carrito_table (_id INTEGER PRIMARY KEY AUTOINCREMENT, producto TEXT)";
-        db.execSQL(createCarritoTable);
+        String crearTablaCarrito = "CREATE TABLE carrito_table (_id INTEGER PRIMARY KEY AUTOINCREMENT, producto TEXT)";
+        db.execSQL(crearTablaCarrito);
 
         // Crear la tabla para productos
-        String createProductosTable = "CREATE TABLE productos_table (nombre TEXT PRIMARY KEY, tipo TEXT)";
-        db.execSQL(createProductosTable);
+        String crearTablaProductos = "CREATE TABLE productos_table (nombre TEXT PRIMARY KEY, tipo TEXT)";
+        db.execSQL(crearTablaProductos);
     }
 
     @Override

@@ -152,11 +152,6 @@ public class ActividadProductos extends AppCompatActivity {
 
                 // Validar que el texto no esté vacío
                 if (!nombreProducto.isEmpty()) {
-                    // Agregar el nuevo elemento a la lista
-
-                    ProductoAdapter adapter = new ProductoAdapter(getApplicationContext(), productos);
-                    //recyclerView.setAdapter(adapter);
-
                     // Obtener el tipo seleccionado
                     int radioButtonId = radioGroup.getCheckedRadioButtonId();
                     RadioButton radioButton = radioGroup.findViewById(radioButtonId);

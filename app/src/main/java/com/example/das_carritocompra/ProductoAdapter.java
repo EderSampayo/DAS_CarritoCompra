@@ -44,8 +44,6 @@ public class ProductoAdapter extends RecyclerView.Adapter<ProductoAdapter.ViewHo
         holder.btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Llama al método en DatabaseHelper para agregar el producto al carrito
-
                 // Obtener el nombre del producto desde la lista
                 String nombreProducto = producto.getNombre();
 

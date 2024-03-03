@@ -15,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,32 +32,11 @@ public class ProductosFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_productos, container, false);
 
-        // Obtener las preferencias
-        SharedPreferences prefs = getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-
-        // Obtener la preferencia del idioma guardada
-        String idiomaSeleccionado = prefs.getString("idioma", "es"); // Por defecto, es castellano
-
         // Establecer el idioma de la aplicación
-        Locale nuevaloc = new Locale(idiomaSeleccionado);
-        Locale.setDefault(nuevaloc);
+        Utilidades.cargarIdioma((AppCompatActivity) getActivity());
 
-        Configuration configuration = getResources().getConfiguration();
-        configuration.setLocale(nuevaloc);
-        configuration.setLayoutDirection(nuevaloc);
-
-        Context context = getActivity().createConfigurationContext(configuration);
-        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
-
-        // Obtén el valor de preferencia de "estadoSwitch" (el segundo parámetro es el valor predeterminado si la clave no está presente)
-        boolean modoOscuroActivado = prefs.getBoolean("estadoSwitch", false);
-        if (modoOscuroActivado) {
-            getActivity().setTheme(R.style.ModoOscuro);
-        } else {
-            getActivity().setTheme(R.style.ModoClaro);
-        }
-
-        // Resto del código de inicialización de la vista y configuraciones
+        // Configurar modo claro/oscuro
+        Utilidades.configurarTema((AppCompatActivity) getActivity());
 
         productos = new ArrayList<>();
 
@@ -70,13 +50,11 @@ public class ProductosFragment extends Fragment {
         // Cargar productos de la BBDD
         cargarProductosDesdeBD();
 
-        // Resto del código de inicialización de botones y eventos
-
         return view;
     }
 
     private void cargarProductosDesdeBD() {
-        // Obtener los productos de la base de datos utilizando el nuevo método obtenerProductos
+        // Obtener los productos de la base de datos
         Cursor cursor = DatabaseHelper.getMiDatabaseHelper(getActivity()).getTodosLosProductos();
 
         // Limpiar la lista actual de productos
@@ -89,12 +67,8 @@ public class ProductosFragment extends Fragment {
             productos.add(new Producto(nombre, tipo));
         }
 
-        // Notificar al adaptador que los datos han cambiado
         adapter.notifyDataSetChanged();
 
-        // Cerrar el cursor
         cursor.close();
     }
-
-    // Resto del código de la clase
 }

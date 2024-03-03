@@ -73,9 +73,9 @@ public class MainActivity extends AppCompatActivity {
 
         // Verificar si hay elementos en el carrito para mostrar la notificación
         databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
-        Cursor cartItems = databaseHelper.obtenerCarrito();
+        Cursor carritoItems = databaseHelper.obtenerCarrito();
 
-        if (cartItems.moveToFirst()) {
+        if (carritoItems.moveToFirst()) {
             // Mostrar notificación local
             mostrarNotificacion();
         }
@@ -147,22 +147,21 @@ public class MainActivity extends AppCompatActivity {
 
     private void cargarBBDDenElCarrito(ArrayList<String> carrito) {
         DatabaseHelper databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
-        Cursor cartItems = databaseHelper.obtenerCarrito();
+        Cursor carritoItems = databaseHelper.obtenerCarrito();
 
-        //ArrayList<String> carrito = new ArrayList<>();
-        if (cartItems.moveToFirst()) {
+        if (carritoItems.moveToFirst()) {
             do {
-                String producto = cartItems.getString(cartItems.getColumnIndex("producto"));
+                String producto = carritoItems.getString(carritoItems.getColumnIndex("producto"));
                 carrito.add(producto);
-            } while (cartItems.moveToNext());
+            } while (carritoItems.moveToNext());
         }
     }
 
     private void mostrarFragmentoSiHorizontal(){
         // Verificar la orientación de la pantalla
-        int orientation = getResources().getConfiguration().orientation;
+        int orientacion = getResources().getConfiguration().orientation;
 
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (orientacion == Configuration.ORIENTATION_LANDSCAPE) {
             // La pantalla está en modo horizontal, por lo tanto, agregamos el Fragment
             agregarFragment();
         } else {
@@ -319,14 +318,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void exportarCarrito() {
-        Cursor cartItems = databaseHelper.obtenerCarrito();
+        Cursor carritoItems = databaseHelper.obtenerCarrito();
 
         ArrayList<String> elCarrito = new ArrayList<>();
-        if (cartItems.moveToFirst()) {
+        if (carritoItems.moveToFirst()) {
             do {
-                String producto = cartItems.getString(cartItems.getColumnIndex("producto"));
+                String producto = carritoItems.getString(carritoItems.getColumnIndex("producto"));
                 elCarrito.add(producto);
-            } while (cartItems.moveToNext());
+            } while (carritoItems.moveToNext());
         }
 
         // Verificar si hay elementos en el carrito
@@ -420,14 +419,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void procesarContenidoImportado(String contenidoImportado) {
-        // Aquí puedes procesar el contenido importado según tus necesidades
-        // Por ejemplo, agregar elementos al carrito o realizar alguna otra acción
-
-        // Ejemplo: Dividir el contenido por líneas y agregar cada línea al carrito
+        // Dividir el contenido por líneas y agregar cada línea al carrito
         String[] lineas = contenidoImportado.split("\n");
         for (String linea : lineas) {
-            // Agregar la línea al carrito (si es necesario)
-            // Puedes llamar a tu método para agregar elementos al carrito aquí
             agregarAlCarrito(linea);
         }
 
@@ -442,17 +436,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void agregarAlCarrito(String producto) {
-        // Lógica para agregar elementos al carrito
-        // Por ejemplo, agregar a la base de datos y actualizar la lista
         carrito.add(producto);
         DatabaseHelper.getMiDatabaseHelper(this).anadirAlCarrito(producto);
     }
 
     private void agregarFragment() {
         // Crea una instancia del Fragment y realiza la transacción
-        ProductosFragment tuFragment = new ProductosFragment();
+        ProductosFragment elFragment = new ProductosFragment();
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.fragmentContainer, tuFragment);
+        transaction.replace(R.id.fragmentContainer, elFragment);
         transaction.commit();
     }
 }
