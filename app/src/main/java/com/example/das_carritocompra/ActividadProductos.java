@@ -75,8 +75,12 @@ public class ActividadProductos extends AppCompatActivity {
                 openEditProductDialog(productos);
             }
         });
-
     }
+
+
+
+
+
 
     private void cargarProductosDesdeBD() {
         // Obtener los productos de la base de datos
@@ -97,10 +101,6 @@ public class ActividadProductos extends AppCompatActivity {
 
         // Cerrar el cursor
         cursor.close();
-    }
-
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
     }
 
     private void openAddTaskActivity(List<Producto> productos) {
@@ -169,9 +169,9 @@ public class ActividadProductos extends AppCompatActivity {
                     DatabaseHelper.getMiDatabaseHelper(ActividadProductos.this).anadirProducto(nombreProducto, tipoSeleccionado);
 
                     // Mostrar el mensaje Toast
-                    mostrarToast(nombreProducto + " " + getString(R.string.anadido));
+                    Utilidades.mostrarToast(getApplicationContext(),nombreProducto + " " + getString(R.string.anadido));
                 } else {
-                    mostrarToast(getString(R.string.errorAnadir));
+                    Utilidades.mostrarToast(getApplicationContext(), getString(R.string.errorAnadir));
                 }
             }
         });
@@ -254,12 +254,12 @@ public class ActividadProductos extends AppCompatActivity {
                     actualizarProducto(nombreProductoSeleccionado, nuevoNombreProducto, tipoSeleccionado);
 
                     // Mostrar el mensaje Toast
-                    mostrarToast(nombreProductoSeleccionado + " " + getString(R.string.actualizadoA) + " " + nuevoNombreProducto);
+                    Utilidades.mostrarToast(getApplicationContext(),nombreProductoSeleccionado + " " + getString(R.string.actualizadoA) + " " + nuevoNombreProducto);
 
                     // Cerrar el diálogo
                     dialog.dismiss();
                 } else {
-                    mostrarToast(getString(R.string.errorEditar));
+                    Utilidades.mostrarToast(getApplicationContext(), getString(R.string.errorEditar));
                 }
             }
         });

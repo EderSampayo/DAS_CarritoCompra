@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         // Configurar modo claro/oscuro
         Utilidades.configurarTema(this);
 
-        // Verificar si hay elementos en el carrito
+        // Verificar si hay elementos en el carrito para mostrar la notificación
         databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
         Cursor cartItems = databaseHelper.obtenerCarrito();
 
@@ -86,23 +86,16 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.labarra);
         Utilidades.configurarToolbar(this, toolbar);
 
-        carrito = new ArrayList<>();
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
+        this.carrito = new ArrayList<>(); // Inicializar carrito
+        this.adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
 
         // Cargar la BBDD en el carrito
-        databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
-        cartItems = databaseHelper.obtenerCarrito();
+        cargarBBDDenElCarrito(carrito);
 
-        ArrayList<String> carrito = new ArrayList<>();
-        if (cartItems.moveToFirst()) {
-            do {
-                String producto = cartItems.getString(cartItems.getColumnIndex("producto"));
-                carrito.add(producto);
-            } while (cartItems.moveToNext());
-        }
-
+        // Comprobar si se repiten productos para mostrar su cantidad en el carrito
         comprobarRepeticionesCarrito(carrito);
 
+        // Poner adapter en el listview
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
@@ -111,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String productoTachado = carrito.get(i); // Guarda el nombre de la tarea eliminada
+                String productoTachado = carrito.get(i); // Guarda el nombre del producto eliminado
                 carrito.remove(i);
 
                 // Obtener la última parte del string
@@ -122,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
 
                 adapter.notifyDataSetChanged();
 
-                mostrarToast(productoTachado + " " + getString(R.string.mensaje_eliminado)); // Muestra el Toast con el mensaje
+                Utilidades.mostrarToast(getApplicationContext(),productoTachado + " " + getString(R.string.mensaje_eliminado)); // Muestra el Toast con el mensaje
                 return true;
             }
         });
@@ -143,6 +136,29 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        // Verificar la orientación de la pantalla para mostrar fragmento
+        this.mostrarFragmentoSiHorizontal();
+    }
+
+
+
+
+
+
+    private void cargarBBDDenElCarrito(ArrayList<String> carrito) {
+        DatabaseHelper databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
+        Cursor cartItems = databaseHelper.obtenerCarrito();
+
+        //ArrayList<String> carrito = new ArrayList<>();
+        if (cartItems.moveToFirst()) {
+            do {
+                String producto = cartItems.getString(cartItems.getColumnIndex("producto"));
+                carrito.add(producto);
+            } while (cartItems.moveToNext());
+        }
+    }
+
+    private void mostrarFragmentoSiHorizontal(){
         // Verificar la orientación de la pantalla
         int orientation = getResources().getConfiguration().orientation;
 
@@ -150,7 +166,7 @@ public class MainActivity extends AppCompatActivity {
             // La pantalla está en modo horizontal, por lo tanto, agregamos el Fragment
             agregarFragment();
         } else {
-            listView = findViewById(R.id.listView);
+            ListView listView = findViewById(R.id.listView);
 
             // Configurar parámetros de diseño para que el ListView ocupe todo el ancho
             ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
@@ -222,11 +238,6 @@ public class MainActivity extends AppCompatActivity {
         return resultadoFinal;
     }
 
-    // Método para mostrar un Toast
-    private void mostrarToast(String mensaje) {
-        Toast.makeText(getApplicationContext(), mensaje, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         /** Método para enseñar definicion_menu.xml **/
@@ -287,10 +298,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        handleIntent(intent);
+        manejarIntent(intent);
     }
 
-    private void handleIntent(Intent intent) {
+    private void manejarIntent(Intent intent) {
         if (intent != null && intent.getAction() != null) {
             switch (intent.getAction()) {
                 case "Ver":
@@ -320,7 +331,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Verificar si hay elementos en el carrito
         if (elCarrito.isEmpty()) {
-            mostrarToast("El carrito está vacío.");
+            Utilidades.mostrarToast(getApplicationContext(),"El carrito está vacío.");
             return;
         }
 
@@ -349,9 +360,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Guardar el contenido en el archivo seleccionado
             if (guardarContenidoEnUri(contenidoArchivo.toString(), uri)) {
-                mostrarToast("Carrito exportado con éxito.");
+                Utilidades.mostrarToast(getApplicationContext(),"Carrito exportado con éxito.");
             } else {
-                mostrarToast("Error al exportar el carrito.");
+                Utilidades.mostrarToast(getApplicationContext(),"Error al exportar el carrito.");
             }
         }
 
@@ -423,7 +434,7 @@ public class MainActivity extends AppCompatActivity {
         // Notificar al adaptador que los datos han cambiado
         adapter.notifyDataSetChanged();
 
-        mostrarToast("Carrito importado con éxito.");
+        Utilidades.mostrarToast(getApplicationContext(),"Carrito importado con éxito.");
 
         // Recargar la actividad para aplicar/visualizar los cambios
         finish();
