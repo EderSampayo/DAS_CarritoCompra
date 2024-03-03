@@ -1,11 +1,10 @@
-<!-- list_item_layout.xml -->
-
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    >
 
     <!-- Nombre del producto -->
     <TextView
@@ -13,7 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold"
+        />
 
     <!-- Tipo del producto -->
     <TextView
@@ -21,20 +21,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        />
 
     <!-- Botones -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginTop="8dp">
+        android:layout_marginTop="8dp"
+        >
 
         <Button
             android:id="@+id/btnBorrar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/btnBorrarProductoTexto"/>
+            android:text="@string/btnBorrarProductoTexto"
+            />
     </LinearLayout>
 
     <!-- Botón redondo con símbolo "+" -->
@@ -44,6 +47,7 @@
         android:layout_height="wrap_content"
         android:src="@android:drawable/ic_input_add"
         android:background="?android:attr/selectableItemBackgroundBorderless"
-        android:contentDescription="Agregar Producto"/>
+        android:contentDescription="Agregar Producto"
+        />
 
 </LinearLayout>
