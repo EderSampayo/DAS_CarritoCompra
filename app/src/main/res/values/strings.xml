@@ -4,6 +4,14 @@
     <string name="mensaje_eliminado">eliminado</string>
     <string name="btnImportar">Importar carrito</string>
     <string name="btnExportar">Exportar carrito</string>
+    <string name="recordatorio">Recordatorio</string>
+    <string name="msgRecordatorio">¡No te olvides de comprar los productos del carrito!</string>
+    <string name="ver">Ver</string>
+    <string name="verCarrito">Ver Carrito</string>
+    <string name="carritoVacio">El carrito está vacío.</string>
+    <string name="carritoExportadoExito">Carrito exportado con éxito.</string>
+    <string name="carritoExportadoError">Error al exportar el carrito.</string>
+    <string name="carritoImportadoExito">Carrito importado con éxito.</string>
 
 
     <string name="btnAnadirProductoTexto">Añadir Producto</string>

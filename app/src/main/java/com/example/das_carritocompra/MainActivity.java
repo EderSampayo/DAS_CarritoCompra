@@ -275,21 +275,21 @@ public class MainActivity extends AppCompatActivity {
 
         // Configurar el NotificationCompat.Builder
         elBuilder.setSmallIcon(android.R.drawable.stat_sys_warning)
-                .setContentTitle("Recordatorio")
-                .setContentText("¡No te olvides de comprar los productos del carrito!")
+                .setContentTitle(getString(R.string.recordatorio))
+                .setContentText(getString(R.string.msgRecordatorio))
                 .setVibrate(new long[]{0, 1000, 500, 1000})
                 .setAutoCancel(true);
 
         // Acción para ver el carrito
         Intent verIntent = new Intent(this, MainActivity.class);
         verIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        verIntent.setAction("Ver");
+        verIntent.setAction(getString(R.string.ver));
 
         // Usar FLAG_IMMUTABLE o FLAG_MUTABLE aquí
         PendingIntent verPendingIntent = PendingIntent.getActivity(this, 0, verIntent, PendingIntent.FLAG_IMMUTABLE);
 
         // Agregar acciones a la notificación
-        elBuilder.addAction(android.R.drawable.ic_menu_revert, "Ver Carrito", verPendingIntent);
+        elBuilder.addAction(android.R.drawable.ic_menu_revert, getString(R.string.verCarrito), verPendingIntent);
 
         elManager.notify(1, elBuilder.build());
     }
@@ -330,7 +330,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Verificar si hay elementos en el carrito
         if (elCarrito.isEmpty()) {
-            Utilidades.mostrarToast(getApplicationContext(),"El carrito está vacío.");
+            Utilidades.mostrarToast(getApplicationContext(),getString(R.string.carritoVacio));
             return;
         }
 
@@ -359,9 +359,9 @@ public class MainActivity extends AppCompatActivity {
 
             // Guardar el contenido en el archivo seleccionado
             if (guardarContenidoEnUri(contenidoArchivo.toString(), uri)) {
-                Utilidades.mostrarToast(getApplicationContext(),"Carrito exportado con éxito.");
+                Utilidades.mostrarToast(getApplicationContext(),getString(R.string.carritoExportadoExito));
             } else {
-                Utilidades.mostrarToast(getApplicationContext(),"Error al exportar el carrito.");
+                Utilidades.mostrarToast(getApplicationContext(),getString(R.string.carritoExportadoError));
             }
         }
 
@@ -428,7 +428,7 @@ public class MainActivity extends AppCompatActivity {
         // Notificar al adaptador que los datos han cambiado
         adapter.notifyDataSetChanged();
 
-        Utilidades.mostrarToast(getApplicationContext(),"Carrito importado con éxito.");
+        Utilidades.mostrarToast(getApplicationContext(),getString(R.string.carritoImportadoExito));
 
         // Recargar la actividad para aplicar/visualizar los cambios
         finish();

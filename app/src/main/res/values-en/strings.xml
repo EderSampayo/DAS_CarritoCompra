@@ -3,6 +3,14 @@
     <string name="mensaje_eliminado">deleted</string>
     <string name="btnImportar">Import cart</string>
     <string name="btnExportar">Export cart</string>
+    <string name="recordatorio">Reminder</string>
+    <string name="msgRecordatorio">Do not forget to buy the items in your cart!</string>
+    <string name="ver">View</string>
+    <string name="verCarrito">View Cart</string>
+    <string name="carritoVacio">The cart is empty.</string>
+    <string name="carritoExportadoExito">Cart exported successfully.</string>
+    <string name="carritoExportadoError">Error exporting the cart.</string>
+    <string name="carritoImportadoExito">Cart imported successfully.</string>
 
 
     <string name="btnAnadirProductoTexto">Add Product</string>
