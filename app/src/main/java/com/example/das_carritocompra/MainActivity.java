@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = findViewById(R.id.listView);
         listView.setAdapter(adapter);
 
-        // Manejo de pulsación larga para eliminar tarea
+        // Manejo de pulsación larga para eliminar producto
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             ListView listView = findViewById(R.id.listView);
 
-            // Configurar parámetros de diseño para que el ListView ocupe todo el ancho
+            // Configurar parámetros de diseño para que el ListView ocupe el ancho
             ViewGroup.LayoutParams layoutParams = listView.getLayoutParams();
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             listView.setLayoutParams(layoutParams);
@@ -372,7 +372,7 @@ public class MainActivity extends AppCompatActivity {
             // Leer el contenido del archivo seleccionado
             String contenidoImportado = leerContenidoDesdeUri(uri);
 
-            // Procesar el contenido importado como desees (por ejemplo, agregarlo al carrito)
+            // Procesar el contenido importado
             procesarContenidoImportado(contenidoImportado);
         }
     }

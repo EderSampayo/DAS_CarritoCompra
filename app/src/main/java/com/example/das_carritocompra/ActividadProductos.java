@@ -42,6 +42,7 @@ public class ActividadProductos extends AppCompatActivity {
         // Configurar modo claro/oscuro
         Utilidades.configurarTema(this);
 
+        // Añadir al contentView actividad_productos.xml
         setContentView(R.layout.actividad_productos);
 
         // Añadir las opciones del toolbar (Carrito, Productos, Usuario)
@@ -50,29 +51,31 @@ public class ActividadProductos extends AppCompatActivity {
 
         productos = new ArrayList<>();
 
+        // Añadir LinearLayoutManager al RecyclerView
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 
+        // Añadir adapter al RecyclerView
         adapter = new ProductoAdapter(this, productos);
         recyclerView.setAdapter(adapter);
 
         // Cargar productos de la BBDD
         cargarProductosDesdeBD();
 
-        Button addButton = findViewById(R.id.btnAnadirProducto);
-        addButton.setOnClickListener(new View.OnClickListener() {
+        Button btnAnadirProducto = findViewById(R.id.btnAnadirProducto);
+        btnAnadirProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openAddTaskActivity(productos);
+                abrirDialogoAnadirProducto(productos);
             }
         });
 
-        Button editButton = findViewById(R.id.btnEditarProducto);
-        editButton.setOnClickListener(new View.OnClickListener() {
+        Button btnEditarProducto = findViewById(R.id.btnEditarProducto);
+        btnEditarProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openEditProductDialog(productos);
+                abrirDialogoEditarProducto(productos);
             }
         });
     }
@@ -103,7 +106,7 @@ public class ActividadProductos extends AppCompatActivity {
         cursor.close();
     }
 
-    private void openAddTaskActivity(List<Producto> productos) {
+    private void abrirDialogoAnadirProducto(List<Producto> productos) {
         // Crear un cuadro de diálogo de alerta
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(R.string.btnAnadirProductoTexto);
@@ -183,7 +186,7 @@ public class ActividadProductos extends AppCompatActivity {
         builder.show();
     }
 
-    private void openEditProductDialog(List<Producto> productos) {
+    private void abrirDialogoEditarProducto(List<Producto> productos) {
         // Obtener la lista de nombres de productos para mostrar en el Spinner
         String[] nombresProductos = obtenerNombresProductos();
 

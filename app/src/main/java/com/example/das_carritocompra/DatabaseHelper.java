@@ -88,7 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return db.rawQuery("SELECT * FROM productos_table", null);
     }
 
-    // Agrega este método a tu clase DatabaseHelper
+    // Método para obtener todos los productos del carrito
     public Cursor obtenerCarrito() {
         SQLiteDatabase db = this.getReadableDatabase();
         return db.rawQuery("SELECT * FROM carrito_table", null);
