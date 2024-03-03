@@ -65,31 +65,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Obtener las preferencias
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-
-        // Obtener la preferencia del idioma guardada
-        String idiomaSeleccionado = prefs.getString("idioma", "es"); // Por defecto, es castellano
-
         // Establecer el idioma de la aplicación
-        Locale nuevaloc = new Locale(idiomaSeleccionado);
-        Locale.setDefault(nuevaloc);
+        Utilidades.cargarIdioma(this);
 
-        Configuration configuration = getResources().getConfiguration();
-        configuration.setLocale(nuevaloc);
-        configuration.setLayoutDirection(nuevaloc);
-
-        Context context = createConfigurationContext(configuration);
-        getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
-
-        // Obtén el valor de preferencia de "estadoSwitch" (el segundo parámetro es el valor predeterminado si la clave no está presente)
-        boolean switchEstado = prefs.getBoolean("estadoSwitch", false);
-        if (switchEstado) {
-            setTheme(R.style.ModoOscuro);
-        }
-        else {
-            setTheme(R.style.ModoClaro);
-        }
+        // Configurar modo claro/oscuro
+        Utilidades.configurarTema(this);
 
         // Verificar si hay elementos en el carrito
         databaseHelper = DatabaseHelper.getMiDatabaseHelper(this);
@@ -104,9 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Añadir las opciones del toolbar (Carrito, Productos, Usuario)
         Toolbar toolbar = findViewById(R.id.labarra);
-        setSupportActionBar(toolbar);
-        // Aquí desactivamos el título en la barra
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        Utilidades.configurarToolbar(this, toolbar);
 
         carrito = new ArrayList<>();
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, carrito);
@@ -254,45 +232,16 @@ public class MainActivity extends AppCompatActivity {
         /** Método para enseñar definicion_menu.xml **/
         getMenuInflater().inflate(R.menu.definicion_menu,menu);
 
-        // Obtener la referencia a los elementos del menú
-        MenuItem carritoItem = menu.findItem(R.id.menu_carrito);
-        MenuItem productosItem = menu.findItem(R.id.menu_productos);
-        MenuItem usuarioItem = menu.findItem(R.id.menu_usuario);
-
         // Configurar el ícono según el modo claro u oscuro
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
-        boolean modoOscuroActivado = prefs.getBoolean("estadoSwitch", false);
-        if (modoOscuroActivado) {
-            carritoItem.setIcon(R.drawable.carrito_blanco);
-            productosItem.setIcon(R.drawable.uvas_blanco);
-            usuarioItem.setIcon(R.drawable.usuario_blanco);
-        } else {
-            carritoItem.setIcon(R.drawable.carrito);
-            productosItem.setIcon(R.drawable.uvas);
-            usuarioItem.setIcon(R.drawable.usuario);
-        }
+        Utilidades.configurarIconosMenu(this, menu);
 
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int itemId = item.getItemId();
-
-        if (itemId == R.id.menu_carrito) {
-            // No hace nada, es la propia clase
-            return true;
-        } else if (itemId == R.id.menu_productos) {
-            // Iniciar Actividad 2
-            startActivity(new Intent(this, ActividadProductos.class));
-            return true;
-        } else if (itemId == R.id.menu_usuario) {
-            // Iniciar Actividad 3
-            startActivity(new Intent(this, ActividadUsuario.class));
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+        // El || hace que si alguno de los 2 devuelve true se devuelva true, si no se devuelve false
+        return Utilidades.manejarItemClick(item, this) || super.onOptionsItemSelected(item);
     }
 
     // Método para mostrar la notificación local
